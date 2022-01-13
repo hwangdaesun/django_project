@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block con %}
+    <div class="container mt-5 mb-5">
+        <h1><b>TOPICS</b></h1>
+        <div class="row mt-5">
+        {% for i in tlist %}
+        <div class="col-lg-4">
+            <div class="card" style="width: 18rem;">
+                <img src="{{ i.writer.getpic }}" class="card-img-top" alt="...">
+
+                <div class="card-body">
+                    <h5 class="card-title"><b>{{ i.subject }}</b></h5>
+                    <p class="card-text">{{ i.summary }}</p>
+                    <a href="{% url 'vote:detail' i.id %}" class="{% if user in i.voter.all %}btn btn-primary{% else %}btn btn-danger{% endif %}">{% if user in i.voter.all %}Go to result{% else %} Go to vote {% endif %}</a>
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+        </div>
+        <div class="text-end">
+            <a href="{% url 'vote:create' %}"><button class="btn btn-primary">+TOPIC</button></a>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+{% endblock %}

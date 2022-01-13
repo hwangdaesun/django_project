@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block con %}
+<div class="container mt-5 mb-5">
+    <h1><b>CREATE BOOKMARK</b></h1>
+    <div class="text-end">
+        <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+        
+            <input type="checkbox" name="impo" class="btn-check" id="btncheck2" autocomplete="off">
+            <label class="btn btn-outline-success" for="btncheck2">★</label>
+
+        </div>
+    </div>
+
+        <form method="post" enctype="multipart/form-data" name="regist">
+            {% csrf_token %}
+            <div class="mb-3 mt-5">
+                <label class="form-label">사이트 이름</label>
+                <input type="text" name="s_name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">사이트 주소</label>
+                <input type="url" name="s_url" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">내용</label>
+                <textarea class="form-control" name="s_comment"></textarea>
+            </div>
+            <button type="button" onclick="check()">등록</button>
+
+            
+        </form>
+
+
+</div>
+
+<script>
+    function check(){
+        f = document.regist;
+        if(!f.s_name.value){
+            alert("사이트 이름을 입력해주세요");
+        }else if(!f.s_url.value){
+            alert("사이트 주소를 입력해주세요");
+        }else if(!f.s_comment.value){
+            alert("내용을 입력해주세요")
+        }else{
+            f.submit()
+        }
+    }
+
+</script>
+
+
+{% endblock %}

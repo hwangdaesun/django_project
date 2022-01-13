@@ -1,0 +1,30 @@
+<form name="regist">
+    <input type="text" name="id">
+    <input type="password" name="pw1">
+    <input type="password" name="pw2">
+    <textarea name="com"></textarea>
+    <button type="button" onclick="check()">가입</button>
+</form>
+
+<script>
+    function check(){
+        f = document.regist;
+        if(!f.id.value){
+            alert("id를 입력해주세요");
+        }else if(!f.pw1.value){
+            alert("password를 입력해주세요")
+        }
+        else if(f.pw1.value != f.pw2.value){
+            alert("password가 일치하지 않습니다.");
+        }
+        else if (!f.com.value){
+            alert("comment를 입력해주세요");
+        }else{
+            f.submit();
+        }
+        
+    }
+
+
+</script>
+<!-- 서버한테 계속 부하를 줌  -->

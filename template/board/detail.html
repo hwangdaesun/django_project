@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% block con %}
+    {% csrf_token %}
+    <div class="container mt-5 mb-5" style="width:80% ;">
+        <h1><b>{{ bo.subject }}</h1></b>
+        
+        
+        <div class="text-end">
+                {% if user in bo.likey.all %}
+                    <a href="{% url 'board:unlikey' bo.id %}"><button class="btn btn-primary">UNLIKEY</button></a>
+                {% else %}
+                    <a href="{% url 'board:likey' bo.id %}"><button class="btn btn-primary">LIKEY</button></a>
+                {% endif %}
+                <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#exampleModal1">즐겨찾기 등록</button>
+            
+        </div>
+
+        <div class="row">
+            <div class="col-lg-9"></div>
+                <textarea class="form-control">{{ bo.content }}</textarea>
+            <div class="col-lg-3 text-center"></div>
+                <img src="{{ bo.writer.getpic }}" width="100%">
+                <h5 class="mte-2">Written by <b>{{ bo.writer.username }}</b></h5>
+        </div>
+
+        <div class="text-end mt-5">
+        {% if user == bo.writer %}
+            
+                <a href="{% url 'board:update' bo.id %}"><button class="btn btn-primary">Update</button></a>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                    Delete 
+                </button>
+
+                <hr>
+        <form method="post" action="{% url 'board:creply' bo.id %}">
+            {% csrf_token %}
+                <b><h4>댓글 쓰기</h4></b>
+                <textarea class="form-control" mt-3 name="com" placeholder="댓글을 작성해주세요"></textarea>
+                <div class="text-end" mt-3>
+                    <button class="btn-btn-primary">전송</button>
+                </div>
+        </form>
+        <hr>
+        {% else %} 
+        {% endif %}  
+        
+        {% if rlist %}
+                {% for i in rlist %}
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <img src="{{ i.replyer.getpic }}" width="100%">
+                        </div>
+                        <div class="col-lg-8">
+                            <textarea class="form-control" disabled>{{ i.comment }}</textarea>
+                        </div>
+                        {% if user == i.replyer %}
+                        <div class="col-lg-1">
+                            <a href={% url 'board:dreply' i.id bo.id %}><button class="btn-btn-danger">x</button></a>
+                        </div>
+                        {% else %}
+                        <button class="btn-btn-primary">up</button>
+                        {% endif %}
+                    </div>
+
+
+                {% endfor %}
+        {% else %}
+
+                <h5> 첫 번째 댓글을 달아주세요</h5>
+        <a href="{% url 'board:index' %}"><button class="btn btn-primary">Back</button></a>
+        </div>
+        {% endif %}
+        
+
+
+
+        <!--여기부터는 MODAL-->
+       
+        <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+             <form method="POST" {% url 'book:create' %}>
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel1">즐겨찾기 추가</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="text-end">
+                                <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                                
+                                    <input type="checkbox" name="impo" class="btn-check" id="btncheck2" autocomplete="off">
+                                    <label class="btn btn-outline-success" for="btncheck2">★</label>
+                        
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">내용</label>
+                                <textarea class="form-control" name="s_comment"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                    
+                        
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">CANCEL</button>
+                            <button type="button" class="btn btn-outline-danger">ADD BOOKMARK</button>
+                        </div>
+                    </div>
+                </div>
+            </form>   
+        </div>
+
+
+    </div>  
+{% endblock %}
